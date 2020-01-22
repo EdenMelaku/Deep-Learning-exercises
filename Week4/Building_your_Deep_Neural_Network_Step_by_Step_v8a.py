@@ -44,7 +44,7 @@
 # - testCases provides some test cases to assess the correctness of your functions
 # - np.random.seed(1) is used to keep all the random function calls consistent. It will help us grade your work. Please don't change the seed. 
 
-# In[ ]:
+# In[3]:
 
 import numpy as np
 import h5py
@@ -100,7 +100,7 @@ np.random.seed(1)
 # - Use random initialization for the weight matrices. Use `np.random.randn(shape)*0.01` with the correct shape.
 # - Use zero initialization for the biases. Use `np.zeros(shape)`.
 
-# In[ ]:
+# In[10]:
 
 # GRADED FUNCTION: initialize_parameters
 
@@ -122,10 +122,10 @@ def initialize_parameters(n_x, n_h, n_y):
     np.random.seed(1)
     
     ### START CODE HERE ### (≈ 4 lines of code)
-    W1 = None
-    b1 = None
-    W2 = None
-    b2 = None
+    W1 = np.random.rand(n_h,n_x)
+    b1 = np.zeros((n_h,1))
+    W2 = np.random.rand(n_y,n_h)
+    b2 = np.zeros((n_y,1))
     ### END CODE HERE ###
     
     assert(W1.shape == (n_h, n_x))
@@ -141,7 +141,7 @@ def initialize_parameters(n_x, n_h, n_y):
     return parameters    
 
 
-# In[ ]:
+# In[11]:
 
 parameters = initialize_parameters(3,2,1)
 print("W1 = " + str(parameters["W1"]))
@@ -274,7 +274,7 @@ print("b2 = " + str(parameters["b2"]))
 #         parameters["b" + str(L)] = np.zeros((layer_dims[1], 1))
 # ```
 
-# In[ ]:
+# In[28]:
 
 # GRADED FUNCTION: initialize_parameters_deep
 
@@ -295,8 +295,8 @@ def initialize_parameters_deep(layer_dims):
 
     for l in range(1, L):
         ### START CODE HERE ### (≈ 2 lines of code)
-        parameters['W' + str(l)] = None
-        parameters['b' + str(l)] = None
+        parameters['W' + str(l)] = np.random.randn(layer_dims[l],layer_dims[l-1])*0.01
+        parameters['b' + str(l)] = np.zeros((layer_dims[l],1))
         ### END CODE HERE ###
         
         assert(parameters['W' + str(l)].shape == (layer_dims[l], layer_dims[l-1]))
@@ -306,7 +306,7 @@ def initialize_parameters_deep(layer_dims):
     return parameters
 
 
-# In[ ]:
+# In[29]:
 
 parameters = initialize_parameters_deep([5,4,3])
 print("W1 = " + str(parameters["W1"]))
@@ -370,7 +370,7 @@ print("b2 = " + str(parameters["b2"]))
 # **Reminder**:
 # The mathematical representation of this unit is $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{[l]}$. You may also find `np.dot()` useful. If your dimensions don't match, printing `W.shape` may help.
 
-# In[ ]:
+# In[32]:
 
 # GRADED FUNCTION: linear_forward
 
@@ -389,7 +389,7 @@ def linear_forward(A, W, b):
     """
     
     ### START CODE HERE ### (≈ 1 line of code)
-    Z = None
+    Z = np.dot(W,A)+b
     ### END CODE HERE ###
     
     assert(Z.shape == (W.shape[0], A.shape[1]))
@@ -398,7 +398,7 @@ def linear_forward(A, W, b):
     return Z, cache
 
 
-# In[ ]:
+# In[33]:
 
 A, W, b = linear_forward_test_case()
 
