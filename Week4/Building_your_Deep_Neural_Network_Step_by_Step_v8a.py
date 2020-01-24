@@ -988,7 +988,7 @@ print_grads(grads)
 # Update parameters using gradient descent on every $W^{[l]}$ and $b^{[l]}$ for $l = 1, 2, ..., L$. 
 # 
 
-# In[28]:
+# In[30]:
 
 # GRADED FUNCTION: update_parameters
 
@@ -1012,12 +1012,12 @@ def update_parameters(parameters, grads, learning_rate):
     ### START CODE HERE ### (≈ 3 lines of code)
     for l in range(L):
         parameters["W" + str(l+1)] = parameters["W" + str(l+1)] -learning_rate*grads["dW" + str(l+1)]
-        parameters["b" + str(l+1)] = parameters["b" + str(l+1)] -learning_rate*grads["db" + str(1+1)]
+        parameters["b" + str(l+1)] = parameters["b" + str(l+1)] -learning_rate*grads["db" + str(l+1)]
     ### END CODE HERE ###
     return parameters
 
 
-# In[29]:
+# In[31]:
 
 parameters, grads = update_parameters_test_case()
 parameters = update_parameters(parameters, grads, 0.1)
