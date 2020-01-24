@@ -44,7 +44,7 @@
 # - testCases provides some test cases to assess the correctness of your functions
 # - np.random.seed(1) is used to keep all the random function calls consistent. It will help us grade your work. Please don't change the seed. 
 
-# In[3]:
+# In[1]:
 
 import numpy as np
 import h5py
@@ -100,7 +100,7 @@ np.random.seed(1)
 # - Use random initialization for the weight matrices. Use `np.random.randn(shape)*0.01` with the correct shape.
 # - Use zero initialization for the biases. Use `np.zeros(shape)`.
 
-# In[10]:
+# In[2]:
 
 # GRADED FUNCTION: initialize_parameters
 
@@ -122,9 +122,9 @@ def initialize_parameters(n_x, n_h, n_y):
     np.random.seed(1)
     
     ### START CODE HERE ### (≈ 4 lines of code)
-    W1 = np.random.rand(n_h,n_x)
+    W1 = np.random.randn(n_h,n_x)*0.01
     b1 = np.zeros((n_h,1))
-    W2 = np.random.rand(n_y,n_h)
+    W2 = np.random.randn(n_y,n_h)*0.01
     b2 = np.zeros((n_y,1))
     ### END CODE HERE ###
     
@@ -141,7 +141,7 @@ def initialize_parameters(n_x, n_h, n_y):
     return parameters    
 
 
-# In[11]:
+# In[3]:
 
 parameters = initialize_parameters(3,2,1)
 print("W1 = " + str(parameters["W1"]))
@@ -274,7 +274,7 @@ print("b2 = " + str(parameters["b2"]))
 #         parameters["b" + str(L)] = np.zeros((layer_dims[1], 1))
 # ```
 
-# In[28]:
+# In[4]:
 
 # GRADED FUNCTION: initialize_parameters_deep
 
@@ -306,7 +306,7 @@ def initialize_parameters_deep(layer_dims):
     return parameters
 
 
-# In[29]:
+# In[5]:
 
 parameters = initialize_parameters_deep([5,4,3])
 print("W1 = " + str(parameters["W1"]))
@@ -370,7 +370,7 @@ print("b2 = " + str(parameters["b2"]))
 # **Reminder**:
 # The mathematical representation of this unit is $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{[l]}$. You may also find `np.dot()` useful. If your dimensions don't match, printing `W.shape` may help.
 
-# In[32]:
+# In[6]:
 
 # GRADED FUNCTION: linear_forward
 
@@ -398,7 +398,7 @@ def linear_forward(A, W, b):
     return Z, cache
 
 
-# In[33]:
+# In[7]:
 
 A, W, b = linear_forward_test_case()
 
@@ -435,7 +435,7 @@ print("Z = " + str(Z))
 # 
 # **Exercise**: Implement the forward propagation of the *LINEAR->ACTIVATION* layer. Mathematical relation is: $A^{[l]} = g(Z^{[l]}) = g(W^{[l]}A^{[l-1]} +b^{[l]})$ where the activation "g" can be sigmoid() or relu(). Use linear_forward() and the correct activation function.
 
-# In[34]:
+# In[8]:
 
 # GRADED FUNCTION: linear_activation_forward
 
@@ -475,7 +475,7 @@ def linear_activation_forward(A_prev, W, b, activation):
     return A, cache
 
 
-# In[35]:
+# In[9]:
 
 A_prev, W, b = linear_activation_forward_test_case()
 
@@ -518,7 +518,7 @@ print("With ReLU: A = " + str(A))
 # - Use a for loop to replicate [LINEAR->RELU] (L-1) times
 # - Don't forget to keep track of the caches in the "caches" list. To add a new value `c` to a `list`, you can use `list.append(c)`.
 
-# In[54]:
+# In[10]:
 
 # GRADED FUNCTION: L_model_forward
 
@@ -559,7 +559,7 @@ def L_model_forward(X, parameters):
     return AL, caches
 
 
-# In[55]:
+# In[11]:
 
 X, parameters = L_model_forward_test_case_2hidden()
 AL, caches = L_model_forward(X, parameters)
@@ -587,7 +587,7 @@ print("Length of caches list = " + str(len(caches)))
 # **Exercise**: Compute the cross-entropy cost $J$, using the following formula: $$-\frac{1}{m} \sum\limits_{i = 1}^{m} (y^{(i)}\log\left(a^{[L] (i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right)) \tag{7}$$
 # 
 
-# In[58]:
+# In[12]:
 
 # GRADED FUNCTION: compute_cost
 
@@ -617,7 +617,7 @@ def compute_cost(AL, Y):
     return cost
 
 
-# In[59]:
+# In[13]:
 
 Y, AL = compute_cost_test_case()
 
@@ -676,7 +676,7 @@ print("cost = " + str(compute_cost(AL, Y)))
 
 # **Exercise**: Use the 3 formulas above to implement linear_backward().
 
-# In[60]:
+# In[14]:
 
 # GRADED FUNCTION: linear_backward
 
@@ -709,7 +709,7 @@ def linear_backward(dZ, cache):
     return dA_prev, dW, db
 
 
-# In[63]:
+# In[15]:
 
 # Set up some test inputs
 dZ, linear_cache = linear_backward_test_case()
@@ -761,7 +761,7 @@ print ("db = " + str(db))
 # 
 # **Exercise**: Implement the backpropagation for the *LINEAR->ACTIVATION* layer.
 
-# In[ ]:
+# In[16]:
 
 # GRADED FUNCTION: linear_activation_backward
 
@@ -796,7 +796,7 @@ def linear_activation_backward(dA, cache, activation):
     return dA_prev, dW, db
 
 
-# In[ ]:
+# In[17]:
 
 dAL, linear_activation_cache = linear_activation_backward_test_case()
 
@@ -885,7 +885,7 @@ print ("db = " + str(db))
 # 
 # **Exercise**: Implement backpropagation for the *[LINEAR->RELU] $\times$ (L-1) -> LINEAR -> SIGMOID* model.
 
-# In[ ]:
+# In[20]:
 
 # GRADED FUNCTION: L_model_backward
 
@@ -918,8 +918,8 @@ def L_model_backward(AL, Y, caches):
     
     # Lth layer (SIGMOID -> LINEAR) gradients. Inputs: "dAL, current_cache". Outputs: "grads["dAL-1"], grads["dWL"], grads["dbL"]
     ### START CODE HERE ### (approx. 2 lines)
-    current_cache = cache[L-1]
-    grads["dA" + str(L-1)], grads["dW" + str(L)], grads["db" + str(L)] = None
+    current_cache = caches[L-1]
+    grads["dA" + str(L-1)], grads["dW" + str(L)], grads["db" + str(L)] = linear_activation_backward(dAL, current_cache, activation = "sigmoid")
     ### END CODE HERE ###
     
     # Loop from l=L-2 to l=0
@@ -927,7 +927,7 @@ def L_model_backward(AL, Y, caches):
         # lth layer: (RELU -> LINEAR) gradients.
         # Inputs: "grads["dA" + str(l + 1)], current_cache". Outputs: "grads["dA" + str(l)] , grads["dW" + str(l + 1)] , grads["db" + str(l + 1)] 
         ### START CODE HERE ### (approx. 5 lines)
-        current_cache = cache[l]
+        current_cache = caches[l]
         dA_prev_temp, dW_temp, db_temp =  linear_activation_backward(grads["dA" + str(l+1)], current_cache, activation = "relu")
         grads["dA" + str(l)] = dA_prev_temp
         grads["dW" + str(l + 1)] = dW_temp
@@ -937,7 +937,7 @@ def L_model_backward(AL, Y, caches):
     return grads
 
 
-# In[ ]:
+# In[21]:
 
 AL, Y_assess, caches = L_model_backward_test_case()
 grads = L_model_backward(AL, Y_assess, caches)
@@ -988,7 +988,7 @@ print_grads(grads)
 # Update parameters using gradient descent on every $W^{[l]}$ and $b^{[l]}$ for $l = 1, 2, ..., L$. 
 # 
 
-# In[ ]:
+# In[28]:
 
 # GRADED FUNCTION: update_parameters
 
@@ -1011,13 +1011,13 @@ def update_parameters(parameters, grads, learning_rate):
     # Update rule for each parameter. Use a for loop.
     ### START CODE HERE ### (≈ 3 lines of code)
     for l in range(L):
-        parameters["W" + str(l+1)] = parameters["W" + str(l+1)] -learning_rate*parameters["W" + str(l+1)]
-        parameters["b" + str(l+1)] = parameters["b" + str(l+1)] -learning_rate*parameters["b" + str(l+1)]
+        parameters["W" + str(l+1)] = parameters["W" + str(l+1)] -learning_rate*grads["dW" + str(l+1)]
+        parameters["b" + str(l+1)] = parameters["b" + str(l+1)] -learning_rate*grads["db" + str(1+1)]
     ### END CODE HERE ###
     return parameters
 
 
-# In[ ]:
+# In[29]:
 
 parameters, grads = update_parameters_test_case()
 parameters = update_parameters(parameters, grads, 0.1)
@@ -1068,3 +1068,8 @@ print ("b2 = "+ str(parameters["b2"]))
 # - An L-layer neural network
 # 
 # You will in fact use these models to classify cat vs non-cat images!
+
+# In[ ]:
+
+
+
