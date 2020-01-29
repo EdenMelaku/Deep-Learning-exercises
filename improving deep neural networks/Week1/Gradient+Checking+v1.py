@@ -1,4 +1,4 @@
-
+#DONE
 # coding: utf-8
 
 # # Gradient Checking
