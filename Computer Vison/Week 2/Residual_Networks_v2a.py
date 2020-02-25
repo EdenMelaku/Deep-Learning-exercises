@@ -26,7 +26,7 @@
 # 
 # Before jumping into the problem, let's run the cell below to load the required packages.
 
-# In[1]:
+# In[3]:
 
 import numpy as np
 from keras import layers
@@ -122,7 +122,7 @@ K.set_learning_phase(1)
 # - For the activation, use:  `Activation('relu')(X)`
 # - To add the value passed forward by the shortcut: [Add](https://keras.io/layers/merge/#add)
 
-# In[10]:
+# In[4]:
 
 # GRADED FUNCTION: identity_block
 
@@ -174,7 +174,7 @@ def identity_block(X, f, filters, stage, block):
     return X
 
 
-# In[11]:
+# In[5]:
 
 tf.reset_default_graph()
 
@@ -243,7 +243,7 @@ with tf.Session() as test:
 # - For the activation, use:  `Activation('relu')(X)`
 # - [Add](https://keras.io/layers/merge/#add)
 
-# In[22]:
+# In[6]:
 
 # GRADED FUNCTION: convolutional_block
 
@@ -305,7 +305,7 @@ def convolutional_block(X, f, filters, stage, block, s = 2):
     return X
 
 
-# In[23]:
+# In[7]:
 
 tf.reset_default_graph()
 
@@ -375,7 +375,7 @@ with tf.Session() as test:
 # - Fully connected layer: [See reference](https://keras.io/layers/core/#dense)
 # - Addition: [See reference](https://keras.io/layers/merge/#add)
 
-# In[37]:
+# In[19]:
 
 # GRADED FUNCTION: ResNet50
 
@@ -407,35 +407,39 @@ def ResNet50(input_shape = (64, 64, 3), classes = 6):
     X = MaxPooling2D((3, 3), strides=(2, 2))(X)
 
     # Stage 2
+    
     X = convolutional_block(X, f = 3, filters = [64, 64, 256], stage = 2, block='a', s = 1)
     X = identity_block(X, 3, [64, 64, 256], stage=2, block='b')
     X = identity_block(X, 3, [64, 64, 256], stage=2, block='c')
+ 
 
     ### START CODE HERE ###
 
     # Stage 3 (≈4 lines)
-    X = convolutional_block(X, f = 3, filters = [128, 128, 512], stage = 3, block='a', s = 2)
-    X = identity_block(X, 3, [128, 128, 512], stage = 3, block='b')
-    X = identity_block(X, 3, [128, 128, 512], stage = 3, block='c')
-    X = identity_block(X, 3, [128, 128, 512], stage = 3, block='d')
+    
+    X = convolutional_block(X, f = 3, filters = [128,128,512], s = 2, stage = 3, block='a')
+    X = identity_block(X, 3, [128,128,512], stage=3, block='b')    
+    X = identity_block(X, 3, [128,128,512], stage=3, block='c')
+    X = identity_block(X, 3, [128,128,512], stage=3, block='d')
 
     # Stage 4 (≈6 lines)
-    X = convolutional_block(X, f = 3, filters = [256,256,512],stage = 4, block='a', s = 2)
-    X = identity_block(X, 3, [256, 256, 512], stage = 4, block='b')
-    X = identity_block(X, 3, [256, 256, 512], stage = 4, block='c')
-    X = identity_block(X, 3, [256, 256, 512], stage = 4, block='d')
-    X = identity_block(X, 3, [256, 256, 512], stage = 4, block='e')
-    X = identity_block(X, 3, [256, 256, 512], stage = 4, block='f')
+      
+    X = convolutional_block(X, f = 3, filters = [256,256,1024], s = 2, stage = 4, block='a')
+    X = identity_block(X, 3, [256,256,1024], stage=4, block='b')    
+    X = identity_block(X, 3, [256,256,1024], stage=4, block='c')
+    X = identity_block(X, 3, [256,256,1024], stage=4, block='d')
+    X = identity_block(X, 3, [256,256,1024], stage=4, block='e')    
+    X = identity_block(X, 3, [256,256,1024], stage=4, block='f')       
 
 
 
     # Stage 5 (≈3 lines)
-    X = convolutional_block(X, f = 3, filters = [256,256,2048],stage = 5, block='a', s = 2)
-    X = identity_block(X, 3, [256, 256, 2048], stage = 5, block='b')
-    X = identity_block(X, 3, [256, 256, 2048], stage = 5, block='c')
+    X = convolutional_block(X, f = 3, filters = [512,512,2048], s = 2, stage = 5, block='a')
+    X = identity_block(X, 3, [512,512,2048], stage=5, block='b')    
+    X = identity_block(X, 3, [512,512,2048], stage=5, block='c')
                        
     # AVGPOOL (≈1 line). Use "X = AveragePooling2D(...)(X)"
-    X = AveragePooling2D(pool_size=(2,2),name='avg_pool')(X)
+    X = AveragePooling2D((2,2),name='avg_pool')(X)
     
     ### END CODE HERE ###
 
@@ -452,14 +456,14 @@ def ResNet50(input_shape = (64, 64, 3), classes = 6):
 
 # Run the following code to build the model's graph. If your implementation is not correct you will know it by checking your accuracy when running `model.fit(...)` below.
 
-# In[38]:
+# In[20]:
 
 model = ResNet50(input_shape = (64, 64, 3), classes = 6)
 
 
 # As seen in the Keras Tutorial Notebook, prior training a model, you need to configure the learning process by compiling the model.
 
-# In[39]:
+# In[10]:
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -472,7 +476,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 # <caption><center> <u> <font color='purple'> **Figure 6** </u><font color='purple'>  : **SIGNS dataset** </center></caption>
 # 
 
-# In[40]:
+# In[11]:
 
 X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes = load_dataset()
 
@@ -494,7 +498,7 @@ print ("Y_test shape: " + str(Y_test.shape))
 
 # Run the following cell to train your model on 2 epochs with a batch size of 32. On a CPU it should take you around 5min per epoch. 
 
-# In[41]:
+# In[12]:
 
 model.fit(X_train, Y_train, epochs = 2, batch_size = 32)
 
@@ -523,7 +527,7 @@ model.fit(X_train, Y_train, epochs = 2, batch_size = 32)
 
 # Let's see how this model (trained on only two epochs) performs on the test set.
 
-# In[ ]:
+# In[13]:
 
 preds = model.evaluate(X_test, Y_test)
 print ("Loss = " + str(preds[0]))
@@ -550,12 +554,12 @@ print ("Test Accuracy = " + str(preds[1]))
 # 
 # Using a GPU, we've trained our own ResNet50 model's weights on the SIGNS dataset. You can load and run our trained model on the test set in the cells below. It may take ≈1min to load the model.
 
-# In[ ]:
+# In[14]:
 
 model = load_model('ResNet50.h5') 
 
 
-# In[ ]:
+# In[15]:
 
 preds = model.evaluate(X_test, Y_test)
 print ("Loss = " + str(preds[0]))
@@ -574,7 +578,7 @@ print ("Test Accuracy = " + str(preds[1]))
 #     3. Write your image's name in the following code
 #     4. Run the code and check if the algorithm is right! 
 
-# In[ ]:
+# In[16]:
 
 img_path = 'images/my_image.jpg'
 img = image.load_img(img_path, target_size=(64, 64))
@@ -590,14 +594,14 @@ print(model.predict(x))
 
 # You can also print a summary of your model by running the following code.
 
-# In[ ]:
+# In[17]:
 
 model.summary()
 
 
 # Finally, run the code below to visualize your ResNet50. You can also download a .png picture of your model by going to "File -> Open...-> model.png".
 
-# In[ ]:
+# In[18]:
 
 plot_model(model, to_file='model.png')
 SVG(model_to_dot(model).create(prog='dot', format='svg'))
